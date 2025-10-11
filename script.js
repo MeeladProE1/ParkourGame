@@ -610,10 +610,10 @@ const keysPressed = {};
 // Variables for jumping and gravity
 let isJumping = false;
 let verticalVelocity = 0;
-const gravity = -0.015;
-const jumpForce = 0.3;
-const moveSpeed = 0.5; // Increased move speed
-const rotateSpeed = 0.1; // Increased rotate speed
+let gravity = -0.015;
+let jumpForce = 0.3;
+let moveSpeed = 0.5; // Increased move speed
+let rotateSpeed = 0.1; // Increased rotate speed
 
 // Function to handle key down events
 function onDocumentKeyDown(event) {
@@ -803,4 +803,5 @@ function animate() {
 }
 
 animate();
+
 
