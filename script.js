@@ -681,12 +681,14 @@ function checkFinishLine() {
 
 // Reset game
 function resetGame() {
-    createLevel(levels[currentLevel]);
+    createLevel(levels[currentLevel]); 
     updateLevelDisplay();
     cube.position.set(0, 1, 0);
     cube.rotation.set(0, 0, 0);
     verticalVelocity = 0;
     isJumping = false;
+    rotateSpeed = 0.1;
+    moveSpeed = 0.5;
     isGameOver = false;
     document.getElementById('gameOverScreen').style.display = 'none';
     animate();
@@ -803,5 +805,6 @@ function animate() {
 }
 
 animate();
+
 
 
