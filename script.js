@@ -725,6 +725,29 @@ function moveZombies() {
     });
 }
 
+// --- NEW CODE FOR RESIZING STARTS HERE ---
+
+/**
+ * Handles adjusting the Three.js camera and renderer size 
+ * whenever the browser window is resized.
+ */
+function onWindowResize() {
+    // 1. Update the camera's aspect ratio based on the new window dimensions
+    camera.aspect = window.innerWidth / window.innerHeight;
+    
+    // 2. Recalculate the projection matrix for the aspect ratio change to take effect
+    camera.updateProjectionMatrix();
+    
+    // 3. Update the renderer's size to match the new window dimensions
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+// Attach the resize handler to the window's 'resize' event
+window.addEventListener('resize', onWindowResize);
+
+// --- NEW CODE FOR RESIZING ENDS HERE ---
+
+
 let animationId;
 function animate() {
     // Move the cube
@@ -780,3 +803,4 @@ function animate() {
 }
 
 animate();
+
