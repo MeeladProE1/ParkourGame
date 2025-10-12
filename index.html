@@ -24,11 +24,23 @@
         <h1>Game Over</h1>
         <button id="tryAgainButton">Try Again</button>
     </div>
+    
+    <div id="responsivePrompt" style="display: none;">
+        <p id="promptMessage"></p>
+        <button id="confirmControlsButton">Yes</button>
+        <button id="denyControlsButton">No</button>
+    </div>
+
+    <div id="mobileControls" style="display: none;">
+        <button id="jumpButton" class="control-btn">Jump</button>
+        <button id="forwardButton" class="control-btn">Forward</button>
+        <button id="leftButton" class="control-btn">Left</button>
+        <button id="rightButton" class="control-btn">Right</button>
+        <button id="rotateLeftButton" class="control-btn">Rotate Left</button>
+        <button id="rotateRightButton" class="control-btn">Rotate Right</button>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="script.js"></script>
-    <script>
-        // Allows to stop the page form closing and asks "Are you sure you want to close the taab".
-        onbeforeunload = function (event) {event.preventDefault();};
-    </script>
 </body>
 </html>
