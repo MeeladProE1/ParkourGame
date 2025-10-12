@@ -610,10 +610,10 @@ const keysPressed = {};
 // Variables for jumping and gravity
 let isJumping = false;
 let verticalVelocity = 0;
-let gravity = -0.015;
-let jumpForce = 0.3;
-let moveSpeed = 0.5; // Increased move speed
-let rotateSpeed = 0.1; // Increased rotate speed
+const gravity = -0.015;
+const jumpForce = 0.3;
+const moveSpeed = 0.5; // Increased move speed
+const rotateSpeed = 0.1; // Increased rotate speed
 
 // Function to handle key down events
 function onDocumentKeyDown(event) {
@@ -681,14 +681,12 @@ function checkFinishLine() {
 
 // Reset game
 function resetGame() {
-    createLevel(levels[currentLevel]); 
+    createLevel(levels[currentLevel]);
     updateLevelDisplay();
     cube.position.set(0, 1, 0);
     cube.rotation.set(0, 0, 0);
     verticalVelocity = 0;
     isJumping = false;
-    rotateSpeed = 0.1;
-    moveSpeed = 0.5;
     isGameOver = false;
     document.getElementById('gameOverScreen').style.display = 'none';
     animate();
@@ -726,29 +724,6 @@ function moveZombies() {
         zombie.position.add(direction.multiplyScalar(0.02)); // Adjust speed as needed
     });
 }
-
-// --- NEW CODE FOR RESIZING STARTS HERE ---
-
-/**
- * Handles adjusting the Three.js camera and renderer size 
- * whenever the browser window is resized.
- */
-function onWindowResize() {
-    // 1. Update the camera's aspect ratio based on the new window dimensions
-    camera.aspect = window.innerWidth / window.innerHeight;
-    
-    // 2. Recalculate the projection matrix for the aspect ratio change to take effect
-    camera.updateProjectionMatrix();
-    
-    // 3. Update the renderer's size to match the new window dimensions
-    renderer.setSize(window.innerWidth, window.innerHeight);
-}
-
-// Attach the resize handler to the window's 'resize' event
-window.addEventListener('resize', onWindowResize);
-
-// --- NEW CODE FOR RESIZING ENDS HERE ---
-
 
 let animationId;
 function animate() {
@@ -805,5 +780,3 @@ function animate() {
 }
 
 animate();
-
-
