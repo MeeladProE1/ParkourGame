@@ -603,13 +603,17 @@ function updateLevelDisplay() {
 }
 
 updateLevelDisplay();
+
+// Object to keep track of which keys are pressed
 const keysPressed = {};
 
-let moveSpeed = 0.5;
-let rotateSpeed = 0.1;
-const TABLET_WIDTH = 1024;
-const MOBILE_WIDTH = 768;
-let controlsEnabled = false;
+// Variables for jumping and gravity
+let isJumping = false;
+let verticalVelocity = 0;
+let gravity = -0.015;
+let jumpForce = 0.3;
+let moveSpeed = 0.5; // Increased move speed
+let rotateSpeed = 0.1; // Increased rotate speed
 
 // Function to handle key down events
 function onDocumentKeyDown(event) {
@@ -628,25 +632,6 @@ function onDocumentKeyUp(event) {
         keysPressed[event.key] = false;
     }
 }
-
-// Function to simulate key down when touch button is pressed
-function onTouchDown(key) {
-    if (!isGameOver && controlsEnabled) {
-        keysPressed[key] = true;
-        if (key === ' ' && !isJumping) {
-            verticalVelocity = jumpForce;
-            isJumping = true;
-        }
-    }
-}
-
-// Function to simulate key up when touch button is released
-function onTouchUp(key) {
-    if (!isGameOver && controlsEnabled) {
-        keysPressed[key] = false;
-    }
-}
-
 
 // Add event listeners for keydown and keyup
 document.addEventListener("keydown", onDocumentKeyDown, false);
@@ -821,102 +806,4 @@ function animate() {
 
 animate();
 
-// ... (existing animate() function)
 
-// --- Responsive Logic ---
-
-const responsivePrompt = document.getElementById('responsivePrompt');
-const promptMessage = document.getElementById('promptMessage');
-const mobileControls = document.getElementById('mobileControls');
-
-// 1. Function to check window size and show the prompt
-function checkWindowSize() {
-    const width = window.innerWidth;
-    
-    // Determine the device type and message
-    let deviceType = null;
-    let message = "";
-
-    if (width < MOBILE_WIDTH) {
-        deviceType = "mobile";
-        message = "Mobile detected. Do you want to switch to touch controls?";
-    } else if (width < TABLET_WIDTH) {
-        deviceType = "tablet";
-        message = "Tablet size detected. Do you want to switch to touch controls?";
-    }
-
-    if (deviceType && !controlsEnabled) {
-        // Show prompt if device is detected and controls aren't already active
-        promptMessage.textContent = message;
-        responsivePrompt.style.display = 'block';
-    } else if (!deviceType) {
-        // Hide prompt if on a desktop/large screen
-        responsivePrompt.style.display = 'none';
-        
-        // Disable controls if screen gets large again, preventing issues
-        if (controlsEnabled) {
-             disableTouchControls();
-        }
-    }
-}
-
-// 2. Control Enabling/Disabling Functions
-function enableTouchControls() {
-    controlsEnabled = true;
-    responsivePrompt.style.display = 'none';
-    mobileControls.style.display = 'flex'; // Show the flex container
-}
-
-function disableTouchControls() {
-    controlsEnabled = false;
-    mobileControls.style.display = 'none'; // Hide the flex container
-    // Reset any currently pressed virtual keys
-    for (const key in keysPressed) {
-        keysPressed[key] = false;
-    }
-}
-
-// 3. Attach Event Listeners for the Notification and Buttons
-
-// Notification buttons
-document.getElementById('confirmControlsButton').addEventListener('click', enableTouchControls);
-document.getElementById('denyControlsButton').addEventListener('click', () => {
-    // Hide the prompt if user denies, but keep controls disabled
-    responsivePrompt.style.display = 'none';
-});
-
-// Touch control buttons
-document.getElementById('jumpButton').addEventListener('touchstart', () => onTouchDown(' '));
-document.getElementById('jumpButton').addEventListener('touchend', () => onTouchUp(' '));
-
-document.getElementById('forwardButton').addEventListener('touchstart', () => onTouchDown('w'));
-document.getElementById('forwardButton').addEventListener('touchend', () => onTouchUp('w'));
-
-document.getElementById('leftButton').addEventListener('touchstart', () => onTouchDown('a'));
-document.getElementById('leftButton').addEventListener('touchend', () => onTouchUp('a'));
-
-document.getElementById('rightButton').addEventListener('touchstart', () => onTouchDown('d'));
-document.getElementById('rightButton').addEventListener('touchend', () => onTouchUp('d'));
-
-document.getElementById('rotateLeftButton').addEventListener('touchstart', () => onTouchDown('ArrowLeft'));
-document.getElementById('rotateLeftButton').addEventListener('touchend', () => onTouchUp('ArrowLeft'));
-
-document.getElementById('rotateRightButton').addEventListener('touchstart', () => onTouchDown('ArrowRight'));
-document.getElementById('rotateRightButton').addEventListener('touchend', () => onTouchUp('ArrowRight'));
-
-
-// 4. Integrate with Resizing
-
-// Modify your existing onWindowResize to also check for mobile/tablet size
-// (This function is in the part of script.js where you put it in the previous step)
-function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    
-    // ✨ New: Check for responsive prompt needs whenever the window resizes
-    checkWindowSize(); 
-}
-
-// Initial check when the page loads
-checkWindowSize();
