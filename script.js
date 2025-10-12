@@ -603,17 +603,13 @@ function updateLevelDisplay() {
 }
 
 updateLevelDisplay();
-
-// Object to keep track of which keys are pressed
 const keysPressed = {};
 
-// Variables for jumping and gravity
-let isJumping = false;
-let verticalVelocity = 0;
-let gravity = -0.015;
-let jumpForce = 0.3;
-let moveSpeed = 0.5; // Increased move speed
-let rotateSpeed = 0.1; // Increased rotate speed
+let moveSpeed = 0.5;
+let rotateSpeed = 0.1;
+const TABLET_WIDTH = 1024;
+const MOBILE_WIDTH = 768;
+let controlsEnabled = false;
 
 // Function to handle key down events
 function onDocumentKeyDown(event) {
@@ -805,6 +801,7 @@ function animate() {
 }
 
 animate();
+
 
 
 
